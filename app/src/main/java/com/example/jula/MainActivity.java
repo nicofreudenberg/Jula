@@ -15,14 +15,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Post> posts;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView = this.findViewById(R.id.recyclerView1);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager((this)));
-        recyclerView.setAdapter(new PostsAdapter(posts));
+     recyclerView.setLayoutManager(new LinearLayoutManager((this)));
+    recyclerView.setAdapter(new PostsAdapter(posts));
+
+      posts.add(new Post("Alfred", "Ist Alfred ein schoener Name?", "Das soll ein link sein" ));
     }
 
 
