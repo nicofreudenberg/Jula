@@ -1,6 +1,8 @@
 package com.example.jula;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,18 +15,29 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Post> posts;
 
-    private RecyclerView recyclerView = this.findViewById(R.id.recyclerView1);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = new Toolbar(this);
 
-     recyclerView.setLayoutManager(new LinearLayoutManager((this)));
-    recyclerView.setAdapter(new PostsAdapter(posts));
 
-      posts.add(new Post("Alfred", "Ist Alfred ein schoener Name?", "Das soll ein link sein" ));
+        ArrayList<Post> posts = new ArrayList<Post>();
+        posts.add(new Post("Peter", "ist Peter cool?", "das ist ein link"));
+
+        RecyclerView recyclerView = (RecyclerView) this.findViewById(R.id.RecyclerView);
+    //    RecyclerView recyclerView = new RecyclerView(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new PostsAdapter(posts, this));
+
+
+
+
+
+
     }
 
 
