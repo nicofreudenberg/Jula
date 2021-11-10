@@ -3,6 +3,7 @@ package com.example.jula;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,17 +27,23 @@ public class MainActivity extends AppCompatActivity {
 
         List<Post> posts = new ArrayList<Post>();
 
-        for (int i = 0; i < 50; i++) {
-            posts.add(new Post("animal #", "peter"));
-            //posts.add(new Post("Peter", "ist Peter cool?", "das ist ein link"));
 
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+            posts.add(new Post("Bundestagswahl 2021", "Bist du zufrieden mit dem Wahlergebnis?"));
+            posts.add(new Post("Pizza oder Döner?", "Was schmeckt besser??"));
+            posts.add(new Post ("noch ein Beispiel", "damit man scrollen zeigen kann"));
+            posts.add(new Post ("dafür brauch man", "noch eins"));
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
             //    RecyclerView recyclerView = new RecyclerView(this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(new PostsAdapter(this, posts));
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                    mLayoutManager.getOrientation());
+            recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        }
+
     }
 }
 

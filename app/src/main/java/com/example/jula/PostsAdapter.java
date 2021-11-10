@@ -36,8 +36,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post animal = mData.get(position);
-        holder.myTextView.setText(animal.getText());
-        holder.myTextView2.setText(animal.getText());
+        holder.text.setText(animal.getText());
+        holder.title.setText(animal.getTitle());
     }
 
     // total number of rows
@@ -49,12 +49,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder  {
-        TextView myTextView, myTextView2;
+        TextView title, text;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.textinrow);
-            myTextView2= itemView.findViewById(R.id.Title);
+           text = itemView.findViewById(R.id.textinrow);
+            title= itemView.findViewById(R.id.title);
 
         }
 

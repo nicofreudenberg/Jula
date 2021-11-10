@@ -3,9 +3,9 @@ package com.example.jula;
 public class Post {
     String title,  text, link;
 
-    public Post (String username, String text) {
+    public Post (String title, String text) {
 
-        this.title=username;
+        this.title=title;
         this.text=text;
 
     }
@@ -14,7 +14,7 @@ public class Post {
         return title;
     }
 
-    public void setTitle(String tittöe) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
