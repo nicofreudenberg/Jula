@@ -12,10 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-
 
 
     @Override
@@ -25,20 +24,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = new Toolbar(this);
 
 
-        ArrayList<Post> posts = new ArrayList<Post>();
-        posts.add(new Post("Peter", "ist Peter cool?", "das ist ein link"));
+        List<Post> posts = new ArrayList<Post>();
 
-        RecyclerView recyclerView = (RecyclerView) this.findViewById(R.id.RecyclerView);
-    //    RecyclerView recyclerView = new RecyclerView(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PostsAdapter(posts, this));
+        for (int i = 0; i < 50; i++) {
+            posts.add(new Post("animal #", "peter"));
+            //posts.add(new Post("Peter", "ist Peter cool?", "das ist ein link"));
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+            //    RecyclerView recyclerView = new RecyclerView(this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(new PostsAdapter(this, posts));
 
 
-
-
-
-
+        }
     }
+}
 
 
 
@@ -56,4 +56,3 @@ public class MainActivity extends AppCompatActivity {
     }**/
 
 
-}

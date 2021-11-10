@@ -20,21 +20,12 @@
     android:layout_height="match_parent"
     android:id="@+id/sample_main_layout">
 
-    <ViewAnimator
-        android:id="@+id/sample_output"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </ViewAnimator>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

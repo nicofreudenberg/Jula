@@ -1,5 +1,6 @@
 package com.example.jula;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,52 +10,57 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
-    private ArrayList<Post> posts = new ArrayList<Post>();
+    private List<Post> mData;
+    private LayoutInflater mInflater;
 
-    public PostsAdapter(ArrayList<Post> posts, MainActivity mainActivity) {
-        this.posts=posts;
+
+    // data is passed into the constructor
+    PostsAdapter(Context context, List<Post> data) {
+        this.mInflater = LayoutInflater.from(context);
+        this.mData = data;
     }
-    @NonNull
-    @Override
-    public PostsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.post_row, viewGroup, false);
 
+    // inflates the row layout from xml when needed
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.post_row, parent, false);
         return new ViewHolder(view);
     }
 
+    // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(@NonNull PostsAdapter.ViewHolder viewHolder, int position) {
-       viewHolder.title.setText(posts.get(position).getTitle());
-       viewHolder.text.setText(posts.get(position).getText());
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Post animal = mData.get(position);
+        holder.myTextView.setText(animal.getText());
+        holder.myTextView2.setText(animal.getText());
     }
 
+    // total number of rows
     @Override
     public int getItemCount() {
-        return posts.size();
+        return mData.size();
     }
 
+
+    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder  {
+        TextView myTextView, myTextView2;
 
-        View itemView;
+        ViewHolder(View itemView) {
+            super(itemView);
+            myTextView = itemView.findViewById(R.id.textinrow);
+            myTextView2= itemView.findViewById(R.id.Title);
 
-        private TextView title = itemView.findViewById(R.id.title);
-        private TextView text = itemView.findViewById(R.id.textinrow);
-
-
-
-
-        public ViewHolder(@NonNull View view) {
-            super(view);
-
-           // textView = (TextView) textView.findViewById(R.id.textView);
         }
 
+
     }
 
 
-    }
+}
 
