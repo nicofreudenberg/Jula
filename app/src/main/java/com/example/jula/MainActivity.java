@@ -16,7 +16,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +36,10 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(new PostsAdapter(this, posts));
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),mLayoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-        getSupportActionBar().setTitle("Beispielstandort");
+
 
 
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_not_logged_in, menu);
 
         return true;
     }

@@ -21,7 +21,7 @@
    >
 
         <include layout="@layout/toolbar">
-                android:id="@+id/toolbar"
+
         </include>
 
         <androidx.recyclerview.widget.RecyclerView
