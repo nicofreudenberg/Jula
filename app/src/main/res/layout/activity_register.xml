@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
+    <include layout="@layout/toolbar"
+        />
     <EditText
         android:id="@+id/enter_password_confirm"
         android:layout_width="177dp"
@@ -49,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#FFFFFF"
+        android:layout_marginTop="?attr/actionBarSize"
+
         android:contentDescription="Jula.Logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

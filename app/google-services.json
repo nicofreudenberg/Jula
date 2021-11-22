@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "36869523586",
+    "project_id": "jula-dd20e",
+    "storage_bucket": "jula-dd20e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36869523586:android:68b5d35c571f5e5437cc9b",
+        "android_client_info": {
+          "package_name": "com.example.jula"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36869523586-4ht9di3m0gsulbo46kc0rf9tcs833dbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0hBMZBJ1cy4P7bnIl5q2qDKV-n-VI2uc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36869523586-4ht9di3m0gsulbo46kc0rf9tcs833dbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

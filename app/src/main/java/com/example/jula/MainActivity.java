@@ -2,15 +2,14 @@ package com.example.jula;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,28 +21,50 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = new Toolbar(this);
+
 
 
         List<Post> posts = new ArrayList<Post>();
 
 
             posts.add(new Post("Bundestagswahl 2021", "Bist du zufrieden mit dem Wahlergebnis?"));
-            posts.add(new Post("Pizza oder Döner?", "Was schmeckt besser??"));
-            posts.add(new Post ("noch ein Beispiel", "damit man scrollen zeigen kann"));
-            posts.add(new Post ("dafür brauch man", "noch eins"));
+
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-            //    RecyclerView recyclerView = new RecyclerView(this);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(new PostsAdapter(this, posts));
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                    mLayoutManager.getOrientation());
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),mLayoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setTitle("Beispielstandort");
 
 
 
+
+    }
+
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.register_settings:
+                Intent registerIntent = new Intent (this, RegisterActivity.class);
+
+                startActivity(registerIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
 
