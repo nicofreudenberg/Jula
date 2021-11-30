@@ -1,49 +1,63 @@
 package com.example.jula;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
+
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.jula.databinding.ActivityMainBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-     ActivityMainBinding binding;
+    public static ViewPager2 viewPager;
 
-    public void fragmentHandling(Fragment fragment){
+   /** public void fragmentHandling(Fragment fragment){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_placeholder, fragment);
         ft.commit();
-    }
+    }**/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentManager fm = getSupportFragmentManager();
+        TabAdapter tabAdapter  = new TabAdapter(fm, getLifecycle());
+        viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(tabAdapter);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("Home"));
+        tabLayout.addTab(tabLayout.newTab().setText("Kalender"));
+        //tabLayout.TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+          //      tab.text = tabTitles[position]
+        //}.attach()
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
-        fragmentHandling(new MainFragment());
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
 
@@ -67,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.register_settings:
 
-               fragmentHandling(new RegisterFragment());
+             //  viewPager.setCurrentItem(RegisterFragment.newInstance);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

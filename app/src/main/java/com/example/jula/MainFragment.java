@@ -31,4 +31,14 @@ public class MainFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
         return view;
     }
+    public static MainFragment newInstance(String text) {
+
+        MainFragment f = new MainFragment();
+        Bundle b = new Bundle();
+        b.putString("msg", text);
+
+        f.setArguments(b);
+
+        return f;
+    }
 }
