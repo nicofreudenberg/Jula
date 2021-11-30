@@ -1,5 +1,8 @@
 package com.example.jula;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -14,11 +17,17 @@ import java.util.ArrayList;
 public class TabAdapter extends FragmentStateAdapter {
 
     ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+    Context context;
 
-    public TabAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public TabAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, Context context) {
         super(fragmentManager, lifecycle);
+        this.context=context;
         fragments.add(MainFragment.newInstance("Home"));
-        fragments.add(new RegisterFragment());
+        fragments.add(CalenderFragment.newInstance("Calender bitch", "wat denn noch"));
+        SharedPreferences sp = context.getSharedPreferences("loggedIn", Context.MODE_PRIVATE);
+        if (sp.getBoolean("loggedIn", false)) {
+            fragments.add(ChatFragment.newInstance("das ist der Chat", "ja wirklich"));
+        }
 
     }
 
@@ -26,19 +35,19 @@ public class TabAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
 
-       /** Fragment fragment;
+       Fragment fragment;
         switch (position) {
             case 0:
                 return MainFragment.newInstance("Home");
             case 1:
-                fragment = new RegisterFragment();
+                fragment = CalenderFragment.newInstance("Kalender oder so?", "digga kp");
                 break;
             default:
-                fragment = new MainFragment();
-        }
-        FragmentTransaction ft = fragment.getChildFragmentManager().beginTransaction();
+                fragment = MainFragment.newInstance("Home, sweet home");
+        }/**
+         FragmentTransaction ft = fragment.getChildFragmentManager().beginTransaction();
         //ft.replace(R.id.fragment_placeholder, fragment);
-        ft.commit(); **/
+        ft.commit();**/
         return fragments.get(position);
     }
 

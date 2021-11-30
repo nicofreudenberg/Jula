@@ -1,36 +1,33 @@
 package com.example.jula;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link CalenderFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class CalenderFragment extends Fragment {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RegisterFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    SharedPreferences sp;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public RegisterFragment(){
-        super(R.layout.fragment_main);
+    public CalenderFragment() {
+        // Required empty public constructor
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -48,6 +45,7 @@ public class RegisterFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,33 +55,10 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_register, container, false);
-       Button loginButton = (Button) view.findViewById(R.id.loginbutton);
-
-       loginButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-              SharedPreferences.Editor editor = sp.edit();
-              editor.clear();
-              editor.putBoolean("loggedIn", true);
-
-           }
-       });
-
-        return view;
-    }
-
-    private void goToMainAcivitiy() {
-        Intent i = new Intent(this.getContext(),MainActivity.class);
-        startActivity(i);
-    }
-
-    public void onClick(View view){
-        getActivity().getPreferences(Context.MODE_PRIVATE);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_calender, container, false);
     }
 }
