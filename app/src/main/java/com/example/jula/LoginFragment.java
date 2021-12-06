@@ -1,25 +1,25 @@
 package com.example.jula;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link LoginFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class LoginFragment extends Fragment {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RegisterFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,8 +30,8 @@ public class RegisterFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public RegisterFragment() {
-        super(R.layout.fragment_main);
+    public LoginFragment() {
+        // Required empty public constructor
     }
 
     /**
@@ -40,11 +40,11 @@ public class RegisterFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CalenderFragment.
+     * @return A new instance of fragment LoginFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
-        RegisterFragment fragment = new RegisterFragment();
+    public static LoginFragment newInstance(String param1, String param2) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,15 +61,15 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        // Inflate the layout for this fragment
         Button loginButton = (Button) view.findViewById(R.id.loginbutton);
         Button registerButton = (Button) view.findViewById(R.id.registerbutton);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sp = getContext().getSharedPreferences("loggedIn", Context.MODE_PRIVATE);
@@ -77,24 +77,21 @@ public class RegisterFragment extends Fragment {
                 editor.clear();
                 editor.putBoolean("loggedIn", true);
                 editor.apply();
-                Intent registered = new Intent (getActivity(), MainActivity.class);
-                startActivity(registered);
+                getActivity().onBackPressed();
+
 
 
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // getActivity().getSupportFragmentManager().beginTransaction().remove(getParentFragment());
                 Navigation.findNavController(view).navigate(R.id.loginFragment);
-
-                // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.newInstance("moin", "test")).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.newInstance("moin", "test")).commit();
 
             }
         });
         return view;
     }
-
 }

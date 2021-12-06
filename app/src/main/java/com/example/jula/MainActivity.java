@@ -1,6 +1,7 @@
 package com.example.jula;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -8,17 +9,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager2.widget.ViewPager2;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -26,84 +34,65 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    public static ViewPager2 viewPager;
+
     SharedPreferences sp;
 
 
-    public void fragmentHandling(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.viewPager, fragment);
-        ft.commit();
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+            init();
+
+
         getSharedPreferences("loggedIn", MODE_PRIVATE).edit().clear().commit(); //ausloggen, beim Appstart
 
     }
 
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        init();
-    }
 
     public void init() {
 
-        FragmentManager fm = getSupportFragmentManager();
-        TabAdapter tabAdapter = new TabAdapter(fm, getLifecycle(), this);
-        viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(tabAdapter);
-        viewPager.setNestedScrollingEnabled(true);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        sp = getSharedPreferences("loggedIn", MODE_PRIVATE);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
 
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                {
-
-                    switch (position) {
-                        case 0:
-                            tab.setText("Home");
-                            break;
-                        case 1:
-                            tab.setText("Kalender");
-                            break;
-                        case 2:
-                            if (sp.getBoolean("loggedIn", false)) {
-                                tab.setText("Chat");
-                                break;
-                            }
-
-                    }
-                }
-            }
-
-        }).attach();
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
-
-
+        NavigationUI.setupWithNavController(navView, navController);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sp = getSharedPreferences("loggedIn", MODE_PRIVATE);
+        if(sp.getBoolean("loggedIn", false)){
 
+            navView.getMenu().clear();
+            navView.inflateMenu(R.menu.bottom_nav_menu_logged_in);
+        }else{
+
+            navView.getMenu().clear();
+            navView.inflateMenu(R.menu.bottom_nav_menu_not_logged_in);
+        }
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getSupportFragmentManager().clearBackStack("lol");
+        init();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
       if(sp.getBoolean("loggedIn", false)){
+          System.out.println("blubb");
           getMenuInflater().inflate(R.menu.menu_logged_in, menu);
       }else{
+          System.out.println("blab");
           getMenuInflater().inflate(R.menu.menu_not_logged_in, menu);
       }
 
@@ -111,29 +100,29 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case R.id.register_settings:
 
-                Intent register = new Intent(this, RegisterActivity.class);
-                startActivity(register);
+
+                Navigation.findNavController(this, R.id.nav_host_fragment_activity_main).navigate(R.id.registerFragment);
+
+
                 return true;
             case R.id.login_settings:
+                Navigation.findNavController(this, R.id.nav_host_fragment_activity_main).navigate(R.id.loginFragment);
 
-                Intent login = new Intent(this, RegisterActivity.class);
-                startActivity(login);
+
                 return true;
             case R.id.profile:
 
-                Intent showProfile = new Intent(this, RegisterActivity.class);
-                startActivity(showProfile);
+
                 return true;
             case R.id.awards:
 
-                Intent showAwareds = new Intent(this, RegisterActivity.class);
-                startActivity(showAwareds);
+
                 return true;
             case R.id.logout:
 

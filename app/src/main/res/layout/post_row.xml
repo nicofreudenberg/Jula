@@ -7,7 +7,7 @@
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true"
     card_view:contentPadding="60dp"
-    >
+        >
 
     <RelativeLayout
     android:layout_width="match_parent"

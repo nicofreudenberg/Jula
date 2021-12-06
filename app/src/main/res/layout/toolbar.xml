@@ -16,5 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:logo="@mipmap/ic_launcher"
-        app:title="Beispielstandort" />
+        app:title="Beispielstandort"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

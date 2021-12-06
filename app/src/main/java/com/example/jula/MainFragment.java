@@ -1,5 +1,6 @@
 package com.example.jula;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment {
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    SharedPreferences sp;
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
     public MainFragment() {
         super(R.layout.fragment_main);
@@ -31,14 +42,13 @@ public class MainFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
         return view;
     }
-    public static MainFragment newInstance(String text) {
-
-        MainFragment f = new MainFragment();
-        Bundle b = new Bundle();
-        b.putString("msg", text);
-
-        f.setArguments(b);
-
-        return f;
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        //args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.jula;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -35,9 +37,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Post animal = mData.get(position);
-        holder.text.setText(animal.getText());
-        holder.title.setText(animal.getTitle());
+        Post post = mData.get(position);
+        holder.text.setText(post.getText());
+        holder.title.setText(post.getTitle());
     }
 
     // total number of rows
@@ -55,11 +57,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             super(itemView);
            text = itemView.findViewById(R.id.textinrow);
             title= itemView.findViewById(R.id.title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   Navigation.findNavController((Activity) itemView.getContext(), R.id.nav_host_fragment_activity_main).navigate(R.id.registerFragment);
+                }
+            });
 
         }
 
 
     }
+
 
 
 }

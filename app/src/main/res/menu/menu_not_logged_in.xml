@@ -4,7 +4,8 @@
 
     <item
         android:id="@+id/login_settings"
-        android:title="@string/LoginButton" />
+        android:title="@string/LoginButton"
+        />
     <item
         android:id="@+id/register_settings"
         android:title="@string/registerButton"
