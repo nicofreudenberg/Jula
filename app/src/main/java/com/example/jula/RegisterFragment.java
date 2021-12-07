@@ -77,8 +77,11 @@ public class RegisterFragment extends Fragment {
                 editor.clear();
                 editor.putBoolean("loggedIn", true);
                 editor.apply();
-                Intent registered = new Intent (getActivity(), MainActivity.class);
-                startActivity(registered);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent); // start same activity
+                getActivity().finish(); // destroy older activity
+                getActivity().overridePendingTransition(0, 0);
+
 
 
             }
@@ -87,10 +90,12 @@ public class RegisterFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // getActivity().getSupportFragmentManager().beginTransaction().remove(getParentFragment());
+                getActivity().onBackPressed();
+
+
                 Navigation.findNavController(view).navigate(R.id.loginFragment);
 
-                // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.newInstance("moin", "test")).commit();
+
 
             }
         });

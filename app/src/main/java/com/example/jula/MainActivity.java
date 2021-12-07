@@ -33,11 +33,9 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
+
 
     SharedPreferences sp;
-
-
 
 
     @Override
@@ -45,61 +43,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-            init();
-
-
-        getSharedPreferences("loggedIn", MODE_PRIVATE).edit().clear().commit(); //ausloggen, beim Appstart
-
+      //  getSharedPreferences("loggedIn", MODE_PRIVATE).edit().clear().commit(); //ausloggen, beim Appstart
+        init();
     }
-
-
-    public void init() {
-
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-
-        NavigationUI.setupWithNavController(navView, navController);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        sp = getSharedPreferences("loggedIn", MODE_PRIVATE);
-        if(sp.getBoolean("loggedIn", false)){
-
-            navView.getMenu().clear();
-            navView.inflateMenu(R.menu.bottom_nav_menu_logged_in);
-        }else{
-
-            navView.getMenu().clear();
-            navView.inflateMenu(R.menu.bottom_nav_menu_not_logged_in);
-        }
-
-    }
-
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        getSupportFragmentManager().clearBackStack("lol");
-        init();
+    //    getSupportFragmentManager().clearBackStack("lol");
+      //  init();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-      if(sp.getBoolean("loggedIn", false)){
-          System.out.println("blubb");
-          getMenuInflater().inflate(R.menu.menu_logged_in, menu);
-      }else{
-          System.out.println("blab");
-          getMenuInflater().inflate(R.menu.menu_not_logged_in, menu);
-      }
+        if (sp.getBoolean("loggedIn", false)) {
 
+            getMenuInflater().inflate(R.menu.menu_logged_in, menu);
+        } else {
+
+            getMenuInflater().inflate(R.menu.menu_not_logged_in, menu);
+        }
 
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -118,20 +87,44 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.profile:
 
-
+                Navigation.findNavController(this, R.id.nav_host_fragment_activity_main).navigate(R.id.profileFragment);
                 return true;
             case R.id.awards:
 
-
+                Navigation.findNavController(this, R.id.nav_host_fragment_activity_main).navigate(R.id.awardFragment);
                 return true;
             case R.id.logout:
 
-               sp.edit().clear().commit();
-               init();
+                sp.edit().clear().commit();
+
+                init();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    public void init() {
+
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+
+        NavigationUI.setupWithNavController(navView, navController);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        sp = getSharedPreferences("loggedIn", MODE_PRIVATE);
+        if (sp.getBoolean("loggedIn", false)) {
+
+            navView.getMenu().clear();
+            navView.inflateMenu(R.menu.bottom_nav_menu_logged_in);
+        } else {
+
+            navView.getMenu().clear();
+            navView.inflateMenu(R.menu.bottom_nav_menu_not_logged_in);
+        }
+
     }
 
 

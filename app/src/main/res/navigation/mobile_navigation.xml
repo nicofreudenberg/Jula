@@ -20,9 +20,9 @@
 
     <fragment
         android:id="@+id/navigation_calender"
-        android:name="com.example.jula.CalenderFragment"
+        android:name="com.example.jula.TodayFragment"
 
-        tools:layout="@layout/fragment_calender" />
+        tools:layout="@layout/fragment_today" />
 
     <fragment
         android:id="@+id/navigation_chat"
@@ -43,4 +43,14 @@
         android:id="@+id/mainActivity"
         android:name="com.example.jula.MainActivity"
          />
+    <fragment
+        android:id="@+id/awardFragment"
+        android:name="com.example.jula.AwardFragment"
+        android:label="fragment_award"
+        tools:layout="@layout/fragment_award" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.jula.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

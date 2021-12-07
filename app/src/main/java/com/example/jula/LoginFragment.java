@@ -1,5 +1,6 @@
 package com.example.jula;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -77,7 +78,14 @@ public class LoginFragment extends Fragment {
                 editor.clear();
                 editor.putBoolean("loggedIn", true);
                 editor.apply();
-                getActivity().onBackPressed();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent); // start same activity
+               getActivity().finish(); // destroy older activity
+               getActivity().overridePendingTransition(0, 0);
+
+
+                //getActivity().recreate();
+                //getActivity().onBackPressed();
 
 
 
@@ -87,8 +95,9 @@ public class LoginFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.loginFragment);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.newInstance("moin", "test")).commit();
+                getActivity().onBackPressed();
+                Navigation.findNavController(view).navigate(R.id.registerFragment);
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, LoginFragment.newInstance("moin", "test")).commit();
 
             }
         });
