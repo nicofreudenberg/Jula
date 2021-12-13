@@ -32,12 +32,12 @@ public class MainFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, parent, false);
-        List<Post> posts = new ArrayList<Post>();
-        posts.add(new Post("Bundestagswahl 2021", "Bist du zufrieden mit dem Wahlergebnis?"));
+        List<Poll> posts = new ArrayList<Poll>();
+        posts.add(new Poll("Bundestagswahl 2021", "Bist du zufrieden mit dem Wahlergebnis?"));
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(new PostsAdapter(view.getContext(), posts));
+        recyclerView.setAdapter(new PollAdapter(view.getContext(), posts));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         return view;

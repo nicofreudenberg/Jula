@@ -53,4 +53,19 @@
         android:name="com.example.jula.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/pieChartFragment"
+        android:name="com.example.jula.PieChartFragment"
+        android:label="PieChartFragment" >
+        <argument
+            android:name="Ergebnisse"
+            app:argType="string[]" />
+        <argument
+            android:name="Ergebenis"
+            app:argType="integer[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="com.example.jula.VotingFragment"
+        android:label="VotingFragment" />
 </navigation>

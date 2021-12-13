@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context="com.example.jula.MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/countA"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:text="0"
+            android:textSize="60sp" />
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/btn_A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+
+            android:text="VOTE" />
+        <Button
+            android:id="@+id/buttonErgebniss"
+            android:layout_width="108dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="150dp"
+
+            android:text="Ergebnis" />
+
+
+        <TextView
+            android:id="@+id/countB"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="0"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:textSize="60sp" />
+
+        <Button
+            android:id="@+id/btn_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text="VOTE" />
+
+    </LinearLayout>
+
+</LinearLayout>

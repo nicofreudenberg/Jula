@@ -7,22 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
+public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
 
-    private List<Post> mData;
+    private List<Poll> mData;
     private LayoutInflater mInflater;
 
 
     // data is passed into the constructor
-    PostsAdapter(Context context, List<Post> data) {
+    PollAdapter(Context context, List<Poll> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -37,9 +35,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Post post = mData.get(position);
-        holder.text.setText(post.getText());
-        holder.title.setText(post.getTitle());
+        Poll poll = mData.get(position);
+        holder.text.setText(poll.getText());
+        holder.title.setText(poll.getTitle());
     }
 
     // total number of rows
@@ -60,7 +58,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Navigation.findNavController((Activity) itemView.getContext(), R.id.nav_host_fragment_activity_main).navigate(R.id.registerFragment);
+                   Navigation.findNavController((Activity) itemView.getContext(), R.id.nav_host_fragment_activity_main).navigate(R.id.votingFragment);
                 }
             });
 

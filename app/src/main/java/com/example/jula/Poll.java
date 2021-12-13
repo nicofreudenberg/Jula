@@ -1,9 +1,9 @@
 package com.example.jula;
 
-public class Post {
+public class Poll {
     String title,  text, link;
 
-    public Post (String title, String text) {
+    public Poll(String title, String text) {
 
         this.title=title;
         this.text=text;
