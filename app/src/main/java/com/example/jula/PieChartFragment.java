@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.anychart.APIlib;
 import com.anychart.AnyChart;
@@ -35,9 +37,7 @@ public class PieChartFragment extends Fragment {
     private String mParam2;
 
     AnyChartView anyChartView;
-    String[] Ergebnisse;
-    int [] Ergebnis;
-
+     Poll poll;
 
     public PieChartFragment() {
         // Required empty public constructor
@@ -52,11 +52,11 @@ public class PieChartFragment extends Fragment {
      * @return A new instance of fragment PieChartFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PieChartFragment newInstance(String [] param1, int[] param2) {
+    public static PieChartFragment newInstance(String [] param1, Poll param2) {
         PieChartFragment fragment = new PieChartFragment();
         Bundle args = new Bundle();
         args.putStringArray("Ergebnisse", param1);
-        args.putIntArray("Ergebnis", param2);
+        args.putSerializable("poll", param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +67,8 @@ public class PieChartFragment extends Fragment {
         if (getArguments() != null) {
             String [] Ergebnisse = getArguments().getStringArray("Ergebnisse");
             int [] Ergebnis = getArguments().getIntArray("Ergebnis");
+            poll = (Poll) getArguments().getSerializable("poll");
+
 
 
         }
@@ -84,11 +86,11 @@ public class PieChartFragment extends Fragment {
     public void setupPieChart(View view) {
         Pie pie = AnyChart.pie();
         List<DataEntry> dataEntries = new ArrayList<>();
-        for (int i = 0; i < getArguments().getStringArray("Ergebnisse").length; i++) {
-            dataEntries.add(new ValueDataEntry(getArguments().getStringArray("Ergebnisse")[i], getArguments().getIntArray("Ergebnis")[i]));
-        }
-
-
+    //    for (int i = 0; i < getArguments().getStringArray("Ergebnisse").length; i++) {
+      //      dataEntries.add(new ValueDataEntry(getArguments().getStringArray("Ergebnisse")[i], getArguments().getIntArray("Ergebnis")[i]));
+       for(int i=0; i<poll.getAnswerOptions().size(); i++) {
+           dataEntries.add(new ValueDataEntry(poll.getAnswerOptions().get(i), poll.getAnswers().get(poll.getAnswerOptions().get(i))));
+       }
         pie.data(dataEntries);
         AnyChartView anyChartView = (AnyChartView) view.findViewById(R.id.any_chart_view);
 

@@ -23,4 +23,14 @@
     <string name="profile">Mein Account</string>
     <string name="awards">Meine Auszeichungen</string>
     <string name="logout">Logout</string>
+    <string name="Apptitle">Beispielstandort</string>
+    <string name="add">Hinzufügen</string>
+    <string name="delete">löschen</string>
+    <string name="PollTitle">Titel der Umfrage</string>
+    <string name="PollText">Beschreibung</string>
+    <string name="answers">Antwortmöglichkeiten (max 4)</string>
+    <string name="AddPoll">Umfrage hinzufügen</string>
+    <string name="sendPoll">Absenden</string>
+    <string name="vote">Abstimmen</string>
+    <string name="result">Ergebnisse</string>
 </resources>
