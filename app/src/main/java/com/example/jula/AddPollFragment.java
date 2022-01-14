@@ -1,33 +1,20 @@
 package com.example.jula;
 
-import android.animation.StateListAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Logger;
+import androidx.fragment.app.Fragment;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,17 +26,12 @@ import java.util.Map;
  */
 public class AddPollFragment extends Fragment {
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://jula-dd20e-default-rtdb.europe-west1.firebasedatabase.app/");
 
-   DatabaseReference myRef = database.getReference("poll");
-   FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     List<String> answers = new ArrayList<String>();
 
     Button deleteButton;
     Button sendButton;
-
-
-
 
 
     public AddPollFragment() {
@@ -86,11 +68,7 @@ public class AddPollFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_poll, container, false);
         ListView myListView = (ListView) view.findViewById(R.id.listview_answers);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                view.getContext(), // Die aktuelle Umgebung (diese Activity)
-                R.layout.answer_row, // Die ID des Zeilenlayouts (der XML-Layout Datei)
-                R.id.answer_element,   // Die ID eines TextView-Elements im Zeilenlayout
-                answers);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),R.layout.answer_row,R.id.answer_element, answers);
         myListView.setAdapter(adapter);
         EditText pollTitle = view.findViewById(R.id.editTitlePoll);
         EditText pollText = view.findViewById(R.id.editPollText);
@@ -98,21 +76,19 @@ public class AddPollFragment extends Fragment {
         EditText editAddAnswers = (EditText) view.findViewById(R.id.editAddAnswers);
 
 
-
-
         View.OnClickListener addListener = view1 -> {
-            if(editAddAnswers.getText().toString().matches("")) {
+            if (editAddAnswers.getText().toString().matches("")) {
                 Toast.makeText(getContext(), "Bitte gib eine Antwortmöglichkeit ein!", Toast.LENGTH_LONG).show();
-            }else{
+            } else {
                 System.out.println(editAddAnswers.getText().toString());
                 answers.add(editAddAnswers.getText().toString());
                 deleteButton.setEnabled(true);
                 adapter.notifyDataSetChanged();
-            if (answers.size() == 4) {
-                addButton.setEnabled(false);
+                if (answers.size() == 4) {
+                    addButton.setEnabled(false);
+                }
             }
-            }
-
+            editAddAnswers.setText("");
         };
         addButton.setOnClickListener(addListener);
 
@@ -143,54 +119,28 @@ public class AddPollFragment extends Fragment {
         sendButton = view.findViewById(R.id.sendButton);
 
         View.OnClickListener sendListener = view1 -> {
-           /** Map<String, Object> poll = new HashMap<>();
-            poll.put("title", pollTitle.getText().toString());
-            poll.put("text", pollText.getText().toString());
-            poll.put("answerOptions", answers);
-            db.collection("poll").add(poll);
-**/
+
             String pollTitleString = pollTitle.getText().toString();
             if (pollTitle.getText().toString().equals("")) {
                 Toast.makeText(getActivity(), "Bitte gib einen Titel ein.", Toast.LENGTH_LONG).show();
             } else {
 
                 String pollTextString = pollText.getText().toString();
-                if (pollText.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Bitte gib eine Beschreibung ein", Toast.LENGTH_LONG).show();
-                } else {
-                    if(answers.size()==0){
+
+                {
+                    if (answers.size() == 0) {
                         Toast.makeText(getActivity(), "Bitte gib Antwortmöglichkeiten ein", Toast.LENGTH_LONG).show();
-                    }else {
+                    } else {
                         Map<String, Integer> answersgiven = new HashMap<>();
                         for (int i = 0; i < answers.size(); i++) {
 
                             answersgiven.put(answers.get(i), 0);
                         }
 
-                        db.collection("polls").add(new Poll(pollTitleString, pollTextString, answers, answersgiven));// {{
+                        db.collection("polls").add(new Poll(pollTitleString, pollTextString, answers, answersgiven, System.nanoTime()));
+                        System.out.println(System.currentTimeMillis());
+                        System.out.println(System.nanoTime());
 
-
-                        //{
-                        //  for (int i = 0; i <= answers.size(); i++) {
-                        ////  Map<String, Integer> answerMap = new HashMap<>();
-                        //answerMap.put(answer, 0);
-                        //    put("Answer" + i, answerMap);
-                        //}
-                        //}}));
-                        //  for (String answer : answers){
-                        //  put(answer)
-                        // put(answer, 0);
-                        //  }
-
-                        //}}));
-                        // DatabaseReference pushedPoll = myRef.push();
-
-
-                        //pushedPoll.setValue((new Poll(pollTitle.getText().toString(), pollText.getText().toString(), new HashMap<String, Integer>() {{
-                        //  for (String answer : answers){
-                        //    put(answer, 0);
-                        //}
-                        //  }})));
 
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent); // start same activity
@@ -202,7 +152,6 @@ public class AddPollFragment extends Fragment {
         };
         sendButton.setOnClickListener(sendListener);
         return view;
-
 
 
     }

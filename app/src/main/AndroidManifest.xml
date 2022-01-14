@@ -12,12 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jula">
 
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
+
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

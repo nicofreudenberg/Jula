@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
@@ -39,25 +40,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+//TODO
+//Zurück Button in den Stellen wo es muss
+//Jula in Apptitel
 public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
 
     private List<Poll> polls;
     private LayoutInflater mInflater;
     SharedPreferences sp;
 
-    // data is passed into the constructor
+
     PollAdapter(Context context, List<Poll> data) {
         this.mInflater = LayoutInflater.from(context);
         this.polls = data;
     }
 
-    // inflates the row layout from xml when needed
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.post_row, parent, false);
         sp= PreferenceManager.getDefaultSharedPreferences(view.getContext());
-        sp.edit().clear().commit();
+
+
         return new ViewHolder(view);
     }
 
@@ -65,8 +69,9 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Poll poll = polls.get(position);
-        holder.text.setText(poll.getTitle());
-        holder.title.setText(poll.getText());
+        holder.text.setText(poll.getText());
+        holder.title.setText(poll.getTitle());
+
 
         if (sp.getBoolean(poll.getTitle(), false)) {
             holder.voteButton.setEnabled(false);
@@ -74,10 +79,17 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
         holder.voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("poll", polls.get(holder.getAdapterPosition()));
-                polls.clear();
-                Navigation.findNavController((Activity) holder.itemView.getContext(), R.id.nav_host_fragment_activity_main).navigate(R.id.votingFragment, bundle);
+
+                if(!view.getContext().getSharedPreferences("loggedIn", Context.MODE_PRIVATE).getBoolean("loggedIn", false)) {
+                    Toast.makeText(view.getContext(), "Du musst dich erst einloggen, bevor du an einer Umfrage teilnehmen kannst!", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("poll", polls.get(holder.getAdapterPosition()));
+                    polls.clear();
+                    Navigation.findNavController((Activity) holder.itemView.getContext(), R.id.nav_host_fragment_activity_main).navigate(R.id.votingFragment, bundle);
+                }
+
             }
         });
 

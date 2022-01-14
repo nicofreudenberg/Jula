@@ -1,12 +1,17 @@
 package com.example.jula;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.health.SystemHealthManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Logger;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -65,14 +71,15 @@ public class MainFragment extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        System.out.println("this has been created");
+
+
         polls = new ArrayList<>();
-        //polls.clear();
+
         View view = inflater.inflate(R.layout.fragment_main, parent, false);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.refreshView);
         recyclerView= view.findViewById(R.id.recyclerView);
 
-        myRef.keepSynced(true);
+      //  myRef.keepSynced(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -83,15 +90,21 @@ public class MainFragment extends Fragment {
         flbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.addPollFragment);
+                if(!view.getContext().getSharedPreferences("loggedIn", Context.MODE_PRIVATE).getBoolean("loggedIn", false)){
+                    Toast.makeText(getActivity(), "Du musst dich erst einloggen, bevor du eine Umfrage anlegen kannst!",Toast.LENGTH_LONG).show();
+                }else{
+                    Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.addPollFragment);
+                }
             }
         });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
+                //polls.clear();
                 recyclerView.getAdapter().notifyDataSetChanged();
-              //  recyclerView.setAdapter(new PollAdapter(view.getContext(), polls));
+                swipeRefreshLayout.setRefreshing(false);
+
+
             }
         });
 
@@ -104,6 +117,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 //Poll poll = value.getValue(Poll.class);
+                value.getQuery().orderBy("timestamp");
                List<DocumentSnapshot> doc = value.getDocuments();
                for (DocumentSnapshot snaps : doc){
                    //Map<String, Object> map = snaps.getData();
@@ -118,61 +132,13 @@ public class MainFragment extends Fragment {
 
             }
         });
-
-
-
-        /**  pollListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    Poll poll = childSnapshot.getValue(Poll.class);
-                    poll.setUniqueID(childSnapshot.getKey());
-                    polls.add(poll);
-                    adapter.notifyDataSetChanged();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        };
-        myRef.addValueEventListener(pollListener);**/
         return view;
     }
 
 
-    @Override
-    public void onResume() {
-        System.out.println("this has been resumed");
-       // recyclerView.setAdapter(new PollAdapter(this.getContext(), polls));
-        System.out.println(polls.size());
-        super.onResume();
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-       // recyclerView.setAdapter(new PollAdapter(this.getContext(), polls));
-        System.out.println(polls.size());
-        System.out.println("This has been restored");
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        System.out.println(polls.size());
-        System.out.println("this has been destroyed");
-        super.onDestroyView();
-
-
-    }
-
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        // args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }

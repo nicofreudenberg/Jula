@@ -8,8 +8,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:layout_width="412dp"
-        android:layout_height="627dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="52dp"
         android:fillViewport="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,129 +17,154 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/editTitlePoll"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="56dp"
-                android:maxLength="50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="52dp"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toEndOf="@+id/PollTitle"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                android:maxLength="50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.562"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AddTittle" />
 
             <Button
                 android:id="@+id/AddAnswer"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/add"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.301"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAddAnswers" />
 
             <ListView
                 android:id="@+id/listview_answers"
-                android:layout_width="190dp"
-                android:layout_height="88dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="120dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
                 android:background="@color/white"
                 android:choiceMode="singleChoice"
                 android:listSelector="#666666"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/AddAnswers" />
 
             <TextView
                 android:id="@+id/AddAnswers"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="120dp"
+                android:layout_marginStart="16dp"
 
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/answers"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.505"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPollText" />
 
             <EditText
                 android:id="@+id/editAddAnswers"
-                android:layout_width="189dp"
-                android:layout_height="61dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
 
-                android:layout_marginEnd="120dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
+                android:hint="@string/putAnswerOptions"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.568"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listview_answers" />
 
             <Button
                 android:id="@+id/Delete_Answer"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="88dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
                 android:enabled="false"
                 android:text="@string/delete"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.711"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAddAnswers" />
 
             <EditText
                 android:id="@+id/editPollText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="44dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:maxLength="100"
                 android:inputType="textMultiLine"
+                android:maxLength="100"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.562"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTitlePoll" />
 
             <TextView
-                android:id="@+id/textView6"
-                android:layout_width="0dp"
+                android:id="@+id/AddTittle"
+                android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
+                android:gravity="center|center_horizontal"
                 android:text="@string/AddPoll"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="34sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/PollText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="44dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="44dp"
                 android:text="@string/PollText"
                 app:layout_constraintEnd_toStartOf="@+id/editPollText"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/PollTitle" />
 
             <TextView
                 android:id="@+id/PollTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="80dp"
                 android:text="@string/PollTitle"
+                app:layout_constraintEnd_toStartOf="@+id/editTitlePoll"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/AddTittle" />
 
             <Button
                 android:id="@+id/sendButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="28dp"
                 android:text="@string/sendPoll"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/AddAnswer" />
         </androidx.constraintlayout.widget.ConstraintLayout>
