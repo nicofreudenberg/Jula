@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Layout, für das Loginfragment-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
+    tools:context=".LoginFragment"
+    android:layout_marginTop="?attr/actionBarSize"> <!--Layout fängt immer erst unter der Toolbar, die eine ActionBarSize hat, an-->
 
-    >
 
 
     <TextView

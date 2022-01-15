@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Bottomnavigation im eingeloggten Zustand-->
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -12,7 +13,7 @@
         android:id="@+id/navigation_calender"
         android:icon="@drawable/ic_baseline_calendar_today_24"
 
-        android:title="Kalender" />
+        android:title="Heute" />
 
     <item
         android:id="@+id/navigation_chat"

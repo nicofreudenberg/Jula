@@ -6,51 +6,28 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //TODO
 //Zurück Button in den Stellen wo es muss
-//Jula in Apptitel
+
 public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
 
-    private List<Poll> polls;
+    private List<Poll> polls; //bekannte Liste, die die Umfragen enthält
     private LayoutInflater mInflater;
-    SharedPreferences sp;
+    SharedPreferences sp; //bekannte SharedPrefences
 
 
-    PollAdapter(Context context, List<Poll> data) {
+    PollAdapter(Context context, List<Poll> data) { //Konstruktur des Adapters
         this.mInflater = LayoutInflater.from(context);
         this.polls = data;
     }
@@ -58,32 +35,34 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.post_row, parent, false);
-        sp= PreferenceManager.getDefaultSharedPreferences(view.getContext());
-
-
+        View view = mInflater.inflate(R.layout.post_row, parent, false);//Erzeugen und Inflaten des ViewHolders
+        sp= PreferenceManager.getDefaultSharedPreferences(view.getContext()); //die SharedPrefences werden hier für das aktivieren / deaktivieren der Buttons benöigt, damit man auch nur einmal abstimmen kann
         return new ViewHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Poll poll = polls.get(position);
-        holder.text.setText(poll.getText());
+
+        Poll poll = polls.get(position); //die Position ist gleich mit dem Index der Umfragen in der Liste, daher kann so die entsprechende Umfrage geholt werden.
+        holder.text.setText(poll.getText()); //im ViewHolder werden Text und Titel mit den entsprechenden Werten aus dem Objekt bestückt.
         holder.title.setText(poll.getTitle());
 
 
         if (sp.getBoolean(poll.getTitle(), false)) {
-            holder.voteButton.setEnabled(false);
+            holder.voteButton.setEnabled(false); //wenn man schon abgestimmt hat, darf man nicht nochmal abstimmen. In den Prefences werden als Key der App-Titel genutzt, die true sind wenn schon abgestimmt wurde
         }
+        //ClickListener für den Votebutton
         holder.voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(!view.getContext().getSharedPreferences("loggedIn", Context.MODE_PRIVATE).getBoolean("loggedIn", false)) {
+                    //loggedIn muss geprüft werden, ob Benutzer eingeloggt ist, sonst darf er an keiner Umfrage teilnehmen
                     Toast.makeText(view.getContext(), "Du musst dich erst einloggen, bevor du an einer Umfrage teilnehmen kannst!", Toast.LENGTH_SHORT).show();
 
                 }else{
+                    //Das Poll-Objekt wird in ein Bundle serialisiert und per navigate dem VotingFragment übergeben.
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("poll", polls.get(holder.getAdapterPosition()));
                     polls.clear();
@@ -93,25 +72,31 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
             }
         });
 
+        //OnClickListener für results
         holder.results.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Poll-Objekt wird in einem Bundle serialisiert und dem pieChartFragment übergeben.
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("poll", polls.get(holder.getAdapterPosition()));
                 Navigation.findNavController((Activity) holder.itemView.getContext(), R.id.nav_host_fragment_activity_main).navigate(R.id.pieChartFragment, bundle);
+
             }
         });
+
         }
 
     @Override
     public int getItemCount() {
         return polls.size();
-    }
+    } //wird benötigt für die Anzahl der Durchläufe um alle Umfragen darzustellen.
+
     public class ViewHolder extends RecyclerView.ViewHolder  {
+        //ViewHolder Klasse, die die einzelen Umfragn darstellt
         TextView title, text;
-        RadioButton answer1,answer2,answer3,answer4;
-        RadioGroup rg;
         Button results, voteButton;
+
+
         ViewHolder(View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.textinrow);

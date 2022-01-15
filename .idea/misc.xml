@@ -10,6 +10,7 @@
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.275" />
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/layout/activity_main.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/layout/activity_register.xml" value="0.38247282608695654" />
+        <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/layout/answer_row.xml" value="0.259375" />
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/layout/fragment_add_poll.xml" value="0.36685773840541946" />
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/layout/fragment_award.xml" value="0.447107868681605" />
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/layout/fragment_calender.xml" value="0.2589890568004169" />
@@ -31,6 +32,9 @@
         <entry key="..\:/Users/Nico/AndroidStudioProjects/Jula/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.275" />
       </map>
     </option>
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="D:/Dokumente/Studium/mobA" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

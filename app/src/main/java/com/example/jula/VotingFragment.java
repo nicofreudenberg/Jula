@@ -1,15 +1,7 @@
 package com.example.jula;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,57 +10,41 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.anychart.AnyChartView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.internal.NavigationMenu;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link VotingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class VotingFragment extends Fragment {
-    private Serializable param;
-    Poll poll;
-    SharedPreferences sp;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+public class VotingFragment extends Fragment { //Fragment, in dem man in der Umfrage abstimmen kann
+
+    Poll poll; //Umfrageobjekt
+    SharedPreferences sp; //bekannte SharedPrefences, zum Setzen des Wertes um anzuzeigen, dass an der Umfrage teilgenommen wurde
+    FirebaseFirestore db = FirebaseFirestore.getInstance(); //Datenbankreferenz
 
     public VotingFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment VotingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static VotingFragment newInstance(String param1, String param2) {
-        VotingFragment fragment = new VotingFragment();
-
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            poll = (Poll) getArguments().getSerializable("poll");
+            poll = (Poll) getArguments().getSerializable("poll"); //Übergebenes serialisiertes Pollobjekt wird auf auf Pollobjekt gecasted
         }
 
     }
@@ -77,80 +53,97 @@ public class VotingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_voting, container, false);
-        sp= PreferenceManager.getDefaultSharedPreferences(view.getContext());
-        sp.edit().clear().commit();
+        View view = inflater.inflate(R.layout.fragment_voting, container, false); //erzeugen und inflaten der View
+        sp = PreferenceManager.getDefaultSharedPreferences(view.getContext()); //initalisieren der SP
+
+        //Initalsieren der im Code benötigten Interaktionen
         RadioGroup rg = view.findViewById(R.id.radioGroup);
         TextView pollTitle = view.findViewById(R.id.pollTitle);
         TextView polLText = view.findViewById(R.id.pollText);
+        //Beschriftungen einfügen
         pollTitle.setText(poll.getTitle());
         polLText.setText(poll.getText());
 
-        if(poll.getAnswerOptions()!=null){
-            List<String> answers = poll.getAnswerOptions();
-            int i=0;
+        //Lesen der Antwortmöglichkeiten aus demObjekt
+        List<String> answerOptions = poll.getAnswerOptions();
+        int i = 0;
 
-            for (String answersOptions : answers) {
+        for (String answersOption : answerOptions) {
 
-                RadioButton rb = new RadioButton(view.getContext());
-                rb.setId(i);
-                i++;
-                rb.setText(answersOptions);
-                rg.addView(rb);
+            RadioButton rb = new RadioButton(view.getContext());
+            rb.setId(i); //RadioButtons erhalten eine ID von 0-3, der Einfachheit beim späteren Abfragen halber.
+            i++;
+            rb.setText(answersOption);
+            rg.addView(rb);
+        }
+        Button resultButtonVotingFragment = view.findViewById(R.id.resultButtonVotingFragment);
+        //Initalisieren und Erzeugen des OnClickListeners wenn man von der Abstimmungsseite ohne Abstimmung direkt auf die Ergebnisse möchte.
+        resultButtonVotingFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle(); //Pollobjekt wird wieder verpackt und an PieChartFragment übergeben
+                bundle.putSerializable("poll", poll);
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.pieChartFragment, bundle);
             }
+        });
 
-            Button voteButtonVotingFragment = view.findViewById(R.id.voteButtonVotingFragment);
-            voteButtonVotingFragment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        //Initialisieren und Erzeugen des OnClickListeners für das Abstimmen
+        Button voteButtonVotingFragment = view.findViewById(R.id.voteButtonVotingFragment);
+        voteButtonVotingFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (rg.getCheckedRadioButtonId() != -1) { //prüfen ob RadioButton gewählt wurde
                     int checked_ID = rg.getCheckedRadioButtonId();
-                    String checkedText = poll.getAnswerOptions().get(checked_ID);
+                    String checkedText = poll.getAnswerOptions().get(checked_ID); //Text wird benötigt um Wert in der Datenbank, dessen Key der checkedText ist, upzudaten.
+
+                    //setzen der Preferences, dass in der Umfrage abgestimmt wurde
                     SharedPreferences.Editor editor = sp.edit();
 
                     editor.putBoolean(poll.getTitle(), true);
                     editor.putBoolean(checkedText, true);
                     editor.apply();
                     editor.commit();
+
+                    //Holen der Refenrenz auf die Collection
                     CollectionReference dbref = db.collection("polls");
 
-                    dbref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    dbref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() { //erzeugen eines OnCompleteListener zum Erzeugen eines QuerySnapshots
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            QuerySnapshot qsnap = task.getResult();
+                            QuerySnapshot qsnap = task.getResult(); //es wird eine Task erzeugt. Mit dieser Task kann ein QuerySnapshot erstellt werden, um die richtige Umfrage zu finden
 
-                            List<DocumentSnapshot> documentsList = qsnap.getDocuments();
+                            List<DocumentSnapshot> documentsList = qsnap.getDocuments(); //Über den QuerySnapshot wird wieder eine Liste der vorhanden Dokumente (Umfragen) erstellt.
 
                             for (int i = 0; i < documentsList.size(); i++) {
                                 DocumentSnapshot document = documentsList.get(i);
 
-                                if (document.get("title").equals(poll.getTitle())) {
-                                    Poll poll = document.toObject(Poll.class);
+                                if (document.get("title").equals(poll.getTitle())) { //Liste wird durchlaufen, bis die Umfrage gefunden wird, auf die abgestimmt wurde. Titel = key in der Datenbank
+                                    Poll poll = document.toObject(Poll.class); //Mapping des Dokuments auf ein PollObjekt
+                                    Map<String, Integer> answers = poll.getAnswers(); //die Antworten werden aus dem Objekt auf eine neue Map initialisiert.
 
-                                    poll.getAnswers().put(checkedText, poll.getAnswers().get(checkedText) + 1);
+                                    //für die gewählte Antwort (checkedText ist der key der Map und gleichzeitig die Antwort, die auch den Radiobutton repräsentiert)
+                                    // wird der Value um 1 inkrementiert
+                                    answers.put(checkedText, answers.get(checkedText) + 1);
+
+                                    //neue Map (mit neuem Wert) wird im Pollobjekt gesetzt.
+                                    poll.setAnswers(answers);
+
+                                    // DocumentReference auf die Umfrage wird erzeugt, mit der die Umfrage geupdated werden kann.
                                     DocumentReference docRef = dbref.document(document.getId());
-                                    List<DocumentSnapshot> doc = qsnap.getDocuments();
+                                    docRef.update("answers", answers); //In dem Dokument (Umfrage) wird das field answers mit der neuen Map ersetzt
 
-                                    docRef.update("answers", poll.getAnswers());
-
+                                    Bundle bundle = new Bundle(); //Pollobjekt wird wieder in einem Bundle Serialisiert und dem PiechartFragment übergeben
+                                    bundle.putSerializable("poll", poll);
+                                    Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.pieChartFragment, bundle);
                                 }
                             }
                         }
-
                     });
-                    closeFragment();
-
-
+                } else {
+                    Toast.makeText(getActivity(), "Bitte tätige eine Auswahl!", Toast.LENGTH_SHORT).show(); //sollte keine Antwort gewählt worden sein, wird das hier abgefangen
                 }
-            });
-        }
-
-
+            }
+        });
         return view;
-    }
-    public void closeFragment() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent); // start same activity
-        getActivity().finish(); // destroy older activity
-        getActivity().overridePendingTransition(0, 0);
     }
 }

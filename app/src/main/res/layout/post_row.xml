@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Layout, für die Umfragen im MainFragment-->
+<!-- jede Umfrage ist eine Cardview, die die entsprechenden Inhalte in einem RelativeLayout anzeigt, diese CardViews werden vom recyclerView des MainFragments verwaltet-->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,9 +9,7 @@
     card_view:cardCornerRadius="40dp"
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true"
-    card_view:contentPadding="60dp"
-
-    >
+    card_view:contentPadding="60dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,12 +53,7 @@
             android:layout_below="@id/title"
             android:layout_marginTop="18dp"
             android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" /><![CDATA[
-
-        />
-
-
-    ]]>
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

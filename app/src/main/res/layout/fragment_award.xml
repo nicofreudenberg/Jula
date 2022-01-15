@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--Layout, für das nicht implementierte Auszeichungsfragment-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,8 +8,24 @@
     tools:context=".AwardFragment">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/ConstructionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="under Construction" />
-</FrameLayout>
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="244dp"
+        android:text="Diese Seite befindet sich im Aufbau."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="179dp"
+        android:layout_height="144dp"
+        android:src="@drawable/construction_icon"
+        app:layout_constraintBottom_toTopOf="@+id/ConstructionText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.68" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

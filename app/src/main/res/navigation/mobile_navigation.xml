@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Navigation-XML, wird von der Navigation-Funktion genutzt, um die entsprechenden Fragments aufzurufen-->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,55 +12,50 @@
 
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_navigation_home_to_navigation_chat"
-            app:destination="@id/navigation_chat" />
-        <action
-            android:id="@+id/action_navigation_home_to_navigation_calender2"
-            app:destination="@id/navigation_calender" />
-        <action
             android:id="@+id/action_navigation_home_to_addPollFragment"
             app:destination="@id/addPollFragment" />
         <action
-            android:id="@+id/action_navigation_home_to_votingFragment"
-            app:destination="@id/votingFragment" />
+            android:id="@+id/action_navigation_home_to_profileFragment"
+            app:destination="@id/profileFragment" />
         <action
-            android:id="@+id/action_navigation_home_to_pieChartFragment"
-            app:destination="@id/pieChartFragment" />
+            android:id="@+id/action_navigation_home_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
+        <action
+            android:id="@+id/action_navigation_home_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_awardFragment"
+            app:destination="@id/awardFragment" />
         <action
             android:id="@+id/action_navigation_home_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_navigation_home_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_navigation_home_to_pieChartFragment2"
+            app:destination="@id/pieChartFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_votingFragment"
+            app:destination="@id/votingFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_calender"
         android:name="com.example.jula.TodayFragment"
 
-        tools:layout="@layout/fragment_today" >
-        <action
-            android:id="@+id/action_navigation_calender_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
+        tools:layout="@layout/fragment_today" />
 
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.jula.ChatFragment"
 
-        tools:layout="@layout/fragment_chat" >
-        <action
-            android:id="@+id/action_navigation_chat_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
+        tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.jula.RegisterFragment"
 
         tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -70,10 +66,6 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.jula.MainActivity"
-         />
     <fragment
         android:id="@+id/awardFragment"
         android:name="com.example.jula.AwardFragment"
@@ -83,48 +75,22 @@
         android:id="@+id/profileFragment"
         android:name="com.example.jula.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/addPollFragment"
+        android:name="com.example.jula.AddPollFragment"
+        android:label="fragment_add_poll"
+        tools:layout="@layout/fragment_add_poll" />
     <fragment
         android:id="@+id/pieChartFragment"
         android:name="com.example.jula.PieChartFragment"
-        android:label="PieChartFragment" >
-        <argument
-            android:name="Ergebnisse"
-            app:argType="string[]" />
-        <argument
-            android:name="Ergebenis"
-            app:argType="integer[]" />
-        <action
-            android:id="@+id/action_pieChartFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
+        android:label="PieChartFragment" />
     <fragment
         android:id="@+id/votingFragment"
         android:name="com.example.jula.VotingFragment"
         android:label="VotingFragment" >
         <action
-            android:id="@+id/action_votingFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_votingFragment_to_pieChartFragment"
+            android:id="@+id/action_votingFragment_to_pieChartFragment2"
             app:destination="@id/pieChartFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/votingFragment2"
-        android:name="com.example.jula.VotingFragment2"
-        android:label="fragment_voting2"
-        tools:layout="@layout/fragment_voting2" />
-    <fragment
-        android:id="@+id/addPollFragment"
-        android:name="com.example.jula.AddPollFragment"
-        android:label="fragment_add_poll"
-        tools:layout="@layout/fragment_add_poll" >
-        <action
-            android:id="@+id/action_addPollFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

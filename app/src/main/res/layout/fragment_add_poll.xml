@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Layout für das Umfrage-hinzufügen-Fragment-->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".AddPollFragment">
 
+    <!-- Es ist möglich zu scrollen, wenn nicht alles auf dem Bildschirm angezeigt werden kann-->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
@@ -24,13 +27,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:maxLength="50"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.562"
+                app:layout_constraintHorizontal_bias="0.721"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/AddTittle" />
 
@@ -38,17 +41,17 @@
                 android:id="@+id/AddAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/add"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.301"
+                app:layout_constraintHorizontal_bias="0.334"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAddAnswers" />
 
             <ListView
                 android:id="@+id/listview_answers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="16dp"
@@ -66,11 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
 
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="76dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/answers"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPollText" />
 
@@ -80,13 +82,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
 
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:hint="@string/putAnswerOptions"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.568"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listview_answers" />
 
@@ -95,12 +97,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:enabled="false"
                 android:text="@string/delete"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.711"
+                app:layout_constraintHorizontal_bias="0.738"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAddAnswers" />
 
@@ -109,14 +111,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:maxLength="100"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.562"
+                app:layout_constraintHorizontal_bias="0.727"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTitlePoll" />
 
@@ -153,6 +155,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="80dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/PollTitle"
                 app:layout_constraintEnd_toStartOf="@+id/editTitlePoll"
                 app:layout_constraintStart_toStartOf="parent"

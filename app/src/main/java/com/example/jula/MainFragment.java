@@ -1,19 +1,12 @@
 package com.example.jula;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.health.SystemHealthManager;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -22,74 +15,49 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Logger;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Document;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    SharedPreferences sp;
-    RecyclerView recyclerView;
-    List<Poll> polls;
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://jula-dd20e-default-rtdb.europe-west1.firebasedatabase.app/");
-    DatabaseReference myRef = database.getReference("poll");
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FloatingActionButton flbt; //Button zum Hinzufügen von Umfragen
+    RecyclerView recyclerView; //View, in der die Umfragen dargestellt werden
+    List<Poll> polls = new ArrayList<>(); //Liste der Umfragen
+    FirebaseFirestore db = FirebaseFirestore.getInstance(); //Instanz der Datenbank
 
     public MainFragment() {
-        super(R.layout.fragment_main);
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_main, parent, false); //erzeugen und Inflaten der View
 
-        polls = new ArrayList<>();
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.refreshView); //erzeugen des SwipeRefreshLayouts (runterziehen = aktualisieren)
+        recyclerView= view.findViewById(R.id.recyclerView); //initalisieren des RecyclerView
 
-        View view = inflater.inflate(R.layout.fragment_main, parent, false);
-        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.refreshView);
-        recyclerView= view.findViewById(R.id.recyclerView);
-
-      //  myRef.keepSynced(true);
-
+        //RecyclerView wird eingerichtet. Benötigt wird ein LayoutManager und DividerItemDecoration (Design, Devider sind zwischen den CardViews)
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        FloatingActionButton flbt = view.findViewById(R.id.addPoll);
+        //Initialisieren des FloatingActionButtons
+        flbt = view.findViewById(R.id.addPoll);
+        //ClickListener für den FloatingActionButton
         flbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Prüfen, ob man eingeloggt ist, sonst darf man keine Umfrage hinzufügen.
                 if(!view.getContext().getSharedPreferences("loggedIn", Context.MODE_PRIVATE).getBoolean("loggedIn", false)){
                     Toast.makeText(getActivity(), "Du musst dich erst einloggen, bevor du eine Umfrage anlegen kannst!",Toast.LENGTH_LONG).show();
                 }else{
@@ -97,49 +65,39 @@ public class MainFragment extends Fragment {
                 }
             }
         });
+        //OnRefreshListener für den Fall, dass der User nach unten wischt um die Umfragen zu aktualisieren
+
+
+        PollAdapter adapter = new PollAdapter(view.getContext(), polls); //erzeugen des Adapters, siehe Polladapter
+        recyclerView.setAdapter(adapter);
+
+        //Abruf der Daten aus der Datenbank. Es wird eine Query erstellt, die die Daten aus der Collection polls abruft und absteigend nach der Erstellungszeit sortiert (neueste oben)
+        Query dbr = db.collection("polls").orderBy("timestamp", Query.Direction.DESCENDING);
+        dbr.addSnapshotListener(new EventListener<QuerySnapshot>() { //die Query bekommt einen SnapShotListener. Der SnapShot erhält die Werte
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+               List<DocumentSnapshot> doc = value.getDocuments(); //Die Documents (in der Firebasewelt sind das die  einzelnen Umfragen), werden in eine Liste hinzugefügt.
+
+               for (DocumentSnapshot snaps : doc){ //Diese Liste wird durchlaufen
+
+                   Poll poll = snaps.toObject(Poll.class);
+                   //Für jeden DocumentSnapshot (beinhaltet die tatsächlichen Daten der Umfrage) werden die Daten auf ein Poll-Objekt mit einer
+                   // Mapping-Methode gemappt. Da die Felder und Keys der Daten übereinstimmen, lassen sich die Documents und Poll-Objekte aufeinander mappen.
+                   polls.add(poll); //Poll-Objekt wird der Liste hinzugefügt und der RecylcerViewAdapter über neue Daten informiert.
+               }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //polls.clear();
-                recyclerView.getAdapter().notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
+                //bei Refresh wird über Navigation eine neue Instanz des MainFragment erzeugt, welcher die Daten neu abruft.
 
-
-            }
-        });
-
-        PollAdapter adapter = new PollAdapter(view.getContext(), polls);
-        recyclerView.setAdapter(adapter);
-        ValueEventListener pollListener;
-
-        CollectionReference dbr = db.collection("polls");
-        dbr.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                //Poll poll = value.getValue(Poll.class);
-                value.getQuery().orderBy("timestamp");
-               List<DocumentSnapshot> doc = value.getDocuments();
-               for (DocumentSnapshot snaps : doc){
-                   //Map<String, Object> map = snaps.getData();
-                   Poll poll = snaps.toObject(Poll.class);
-                   polls.add(poll);
-
-                   adapter.notifyDataSetChanged();
-
-               }
-
-
-
+                Navigation.findNavController(view).navigate(R.id.navigation_home);
+                swipeRefreshLayout.setRefreshing(false); //SpinningWheel ausstellen
             }
         });
         return view;
-    }
-
-
-    public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 }
