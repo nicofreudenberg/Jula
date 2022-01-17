@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,10 +33,10 @@ public class AddPollFragment extends Fragment {
    // Interaktionsmöglichkeiten im View die im Code verwendet werden.
     EditText pollTitle;
     EditText pollText;
-    Button addButton;
+    ImageButton addButton;
     EditText editAddAnswers;
     Button  sendButton;
-    Button deleteButton;
+    ImageButton deleteButton;
     ListView myListView;
 
 
@@ -67,6 +68,8 @@ public class AddPollFragment extends Fragment {
         addButton = view.findViewById(R.id.AddAnswer);
         editAddAnswers = (EditText) view.findViewById(R.id.editAddAnswers);
         deleteButton = view.findViewById(R.id.Delete_Answer);
+        deleteButton.setEnabled(false);
+        deleteButton.setAlpha(0.25F);
         sendButton = view.findViewById(R.id.sendButton);
 
        // OnClicklistener für den AddButton, zuständig für das Hinzufügen von Antwortmöglichkeiten in die Liste
@@ -74,13 +77,17 @@ public class AddPollFragment extends Fragment {
             if (editAddAnswers.getText().toString().matches("")) { //wenn Texteingabefeld leer ist, zeige Toast-Meldung
                 Toast.makeText(getContext(), "Bitte gib eine Antwortmöglichkeit ein!", Toast.LENGTH_LONG).show();
             } else {
+
                if (answers.contains(editAddAnswers.getText().toString())){ //Da Firebase nicht mehrfach den gleichen Wert speichern kann, muss dies abgefangen werden.
                    Toast.makeText(getContext()," Diese Antwortmöglichkeit gibt es schon!", Toast.LENGTH_LONG).show();
-                }else{
+                }
+               else{
                 answers.add(editAddAnswers.getText().toString());
-                deleteButton.setEnabled(true); //aktivieren des deleteButtons um eingebene Antwort wieder löschen zu können.
+                deleteButton.setEnabled(true);
+                deleteButton.setAlpha(1.00F);//aktivieren des deleteButtons um eingebene Antwort wieder löschen zu können.
                 adapter.notifyDataSetChanged(); //Adapter wird benachrichtigt und aktualisiert die View
-                if (answers.size() == 4) { // Aufgrund einer Designentscheidung werden max. 4 Antworten zugelassen, wenn die Anzahl erreicht wird, wird der addButton deaktiviert.
+
+                   if (answers.size() == 4) { // Aufgrund einer Designentscheidung werden max. 4 Antworten zugelassen, wenn die Anzahl erreicht wird, wird der addButton deaktiviert.
                     addButton.setEnabled(false);
                 }
                 }
@@ -100,7 +107,9 @@ public class AddPollFragment extends Fragment {
                     addButton.setEnabled(true); //wenn wieder weniger als 4 Antworten in der Liste sind, wird der addButton wieder aktiviert.
                 }
                 if (answers.isEmpty()) {
-                    deleteButton.setEnabled(false); //Umgekehrte Aktion zum addListener, ist die Antwortliste leer, wird der deleteButton deaktiviert
+                    deleteButton.setEnabled(false);
+                    deleteButton.setAlpha(0.25F);
+                    //Umgekehrte Aktion zum addListener, ist die Antwortliste leer, wird der deleteButton deaktiviert
                 }
             }
         };

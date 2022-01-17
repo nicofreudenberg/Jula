@@ -1,5 +1,6 @@
 package com.example.jula;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -77,12 +78,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.logout:
                 sp.edit().clear().commit(); //löschen der Prefences resultiert in ausgeloggten Zustand
-                this.recreate(); //Activty wird neu aufgebaut um Menüs anzupasen
+                Intent loggedIn = new Intent (this, MainActivity.class);
+                loggedIn.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); //beugt dem Flackern beim Neuerstellen der Activity vor
+
+                startActivity(loggedIn); //Activty wird neu aufgebaut um Menüs anzupasen
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     @Override
     public void onBackPressed() {

@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-//TODO
-//Zurück Button in den Stellen wo es muss
 
 public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
 
@@ -47,6 +45,7 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.ViewHolder> {
         Poll poll = polls.get(position); //die Position ist gleich mit dem Index der Umfragen in der Liste, daher kann so die entsprechende Umfrage geholt werden.
         holder.text.setText(poll.getText()); //im ViewHolder werden Text und Titel mit den entsprechenden Werten aus dem Objekt bestückt.
         holder.title.setText(poll.getTitle());
+
 
 
         if (sp.getBoolean(poll.getTitle(), false)) {

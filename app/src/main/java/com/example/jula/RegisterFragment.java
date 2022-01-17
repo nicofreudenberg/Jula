@@ -1,6 +1,7 @@
 package com.example.jula;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,7 +43,10 @@ public class RegisterFragment extends Fragment { //RegisterFragment, welches Mom
                 editor.clear();
                 editor.putBoolean("loggedIn", true);
                 editor.apply();
-                getActivity().recreate();
+
+                Intent loggedIn = new Intent (getActivity(), MainActivity.class);
+                loggedIn.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(loggedIn);
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_home);
             }
         });

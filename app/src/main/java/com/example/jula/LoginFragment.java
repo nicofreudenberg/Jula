@@ -1,6 +1,7 @@
 package com.example.jula;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,7 +54,14 @@ public class LoginFragment extends Fragment { //Fragment für den Login
                 editor.putBoolean("loggedIn", true);
                 editor.apply();
                 //Neuerzeugen der MainActivity, um eingeloggten Zustand abzubilden, anschließend wird dorthin navigiert.
-                getActivity().recreate();
+
+                Intent loggedIn = new Intent (getActivity(), MainActivity.class);
+                loggedIn.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                startActivity(loggedIn);
+
+
+
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_home);
             }
         });

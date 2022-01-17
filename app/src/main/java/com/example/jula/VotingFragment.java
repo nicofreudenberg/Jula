@@ -59,6 +59,7 @@ public class VotingFragment extends Fragment { //Fragment, in dem man in der Umf
         //Initalsieren der im Code benötigten Interaktionen
         RadioGroup rg = view.findViewById(R.id.radioGroup);
         TextView pollTitle = view.findViewById(R.id.pollTitle);
+
         TextView polLText = view.findViewById(R.id.pollText);
         //Beschriftungen einfügen
         pollTitle.setText(poll.getTitle());
